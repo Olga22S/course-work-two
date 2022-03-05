@@ -17,12 +17,12 @@ class JavaQuestionServiceTest {
 
     private JavaQuestionService questionService;
 
-    @BeforeEach
-    void setUp() {
-        questionService = new JavaQuestionService();
-        questionService.add("Question 1", "Answer 1");
-        questionService.add("Question 2", "Answer 2");
-    }
+//    @BeforeEach
+//    void setUp() {
+//        questionService = new JavaQuestionService(questionRepository);
+//        questionService.add("Question 1", "Answer 1");
+//        questionService.add("Question 2", "Answer 2");
+//    }
 
     @Test
     void add() {
