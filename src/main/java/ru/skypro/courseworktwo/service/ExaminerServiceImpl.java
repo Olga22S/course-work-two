@@ -22,29 +22,32 @@ public class ExaminerServiceImpl implements ExaminerService {
         this.mathQuestionService = mathQuestionService;
     }
 
-//    @Override
-//    public Collection<Question> getQuestions(int amount) {
-//        Set<Question> questions = new HashSet<>();
-//        if (questionService.getAll().size() < amount) {
-//            throw new AmountQuestionException();
-//        }
+    @Override
+    public Collection<Question> getQuestions(int amount) {
+        Set<Question> questions = new HashSet<>();
+        if (javaQuestionService.getAll().size() + mathQuestionService.getAll().size() < amount) {
+            throw new AmountQuestionException();
+        }
+        generateJavaQuestions(amount, questions);
+        generateMathQuestions(amount, questions);
 //        while (amount-- > 0) {
 //            if (!questions.add(questionService.getRandomQuestion())) {
 //                amount++;
 //            }
 //        }
-//        return questions;
-//    }
+        return questions;
+    }
 
-    private void generateJavaQuestions(int totalAmount){
+    private void generateJavaQuestions(int totalAmount, Collection<Question> questions){
+        int questionsNum = getJavaQuestionsNumber(totalAmount);
 
     }
 
-    private void generateMathQuestions(int totalAmount){
+    private void generateMathQuestions(int totalAmount, Collection<Question> questions){
 
     }
 
     private int getJavaQuestionsNumber(int totalAmount){
-        return new Random().nextInt(totalAmount + 1);
+        return new Random().nextInt(javaQuestionService.getAll().size());
     }
 }
