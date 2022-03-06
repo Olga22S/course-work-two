@@ -30,24 +30,36 @@ public class ExaminerServiceImpl implements ExaminerService {
         }
         generateJavaQuestions(amount, questions);
         generateMathQuestions(amount, questions);
-//        while (amount-- > 0) {
-//            if (!questions.add(questionService.getRandomQuestion())) {
-//                amount++;
-//            }
-//        }
         return questions;
     }
 
     private void generateJavaQuestions(int totalAmount, Collection<Question> questions){
         int questionsNum = getJavaQuestionsNumber(totalAmount);
-
+        while (questionsNum-- > 0) {
+            if (!questions.add(javaQuestionService.getRandomQuestion())) {
+                questionsNum++;
+            }
+        }
     }
 
     private void generateMathQuestions(int totalAmount, Collection<Question> questions){
-
+        int questionsNum = totalAmount - questions.size();
+        while (questionsNum-- > 0) {
+            if (!questions.add(mathQuestionService.getRandomQuestion())) {
+                questionsNum++;
+            }
+        }
     }
 
-    private int getJavaQuestionsNumber(int totalAmount){
-        return new Random().nextInt(javaQuestionService.getAll().size());
+    private int getJavaQuestionsNumber(int totalAmount) {
+        int questionsNum = new Random().nextInt(totalAmount + 1);
+        int javaQuestionsTotal = javaQuestionService.getAll().size();
+        int mathQuestionsTotal = mathQuestionService.getAll().size();
+        if (questionsNum > javaQuestionsTotal) {
+            questionsNum = javaQuestionsTotal;
+        }else if(totalAmount > questionsNum + mathQuestionsTotal){
+            questionsNum = totalAmount - mathQuestionsTotal;
+        }
+        return questionsNum;
     }
 }
