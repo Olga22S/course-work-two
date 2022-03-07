@@ -1,6 +1,5 @@
 package ru.skypro.courseworktwo.service;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.skypro.courseworktwo.exeption.GeneratingQuestionException;
 import ru.skypro.courseworktwo.model.Question;
@@ -18,7 +17,7 @@ public class JavaQuestionService implements QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository questionRepository) {
+    public JavaQuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 

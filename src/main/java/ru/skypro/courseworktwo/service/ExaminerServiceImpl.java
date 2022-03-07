@@ -2,7 +2,6 @@ package ru.skypro.courseworktwo.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.skypro.courseworktwo.exeption.AmountQuestionException;
 import ru.skypro.courseworktwo.model.Question;
 
 import java.util.Collection;
@@ -25,9 +24,6 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Collection<Question> getQuestions(int amount) {
         Set<Question> questions = new HashSet<>();
-        if (javaQuestionService.getAll().size() + mathQuestionService.getAll().size() < amount) {
-            throw new AmountQuestionException();
-        }
         generateJavaQuestions(amount, questions);
         generateMathQuestions(amount, questions);
         return questions;
@@ -54,11 +50,8 @@ public class ExaminerServiceImpl implements ExaminerService {
     private int getJavaQuestionsNumber(int totalAmount) {
         int questionsNum = new Random().nextInt(totalAmount + 1);
         int javaQuestionsTotal = javaQuestionService.getAll().size();
-        int mathQuestionsTotal = mathQuestionService.getAll().size();
         if (questionsNum > javaQuestionsTotal) {
             questionsNum = javaQuestionsTotal;
-        }else if(totalAmount > questionsNum + mathQuestionsTotal){
-            questionsNum = totalAmount - mathQuestionsTotal;
         }
         return questionsNum;
     }

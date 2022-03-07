@@ -1,59 +1,44 @@
 package ru.skypro.courseworktwo.service;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.skypro.courseworktwo.exeption.GeneratingQuestionException;
+import ru.skypro.courseworktwo.exeption.NotAllowedActionException;
 import ru.skypro.courseworktwo.model.Question;
-import ru.skypro.courseworktwo.repository.QuestionRepository;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Random;
-
-import static java.util.Objects.isNull;
 
 @Service
 public class MathQuestionService implements QuestionService {
 
-    private final QuestionRepository questionRepository;
-
-    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public MathQuestionService() {
     }
 
     @Override
     public Question add(String question, String answer) {
-        Question newQuestion = new Question(question, answer);
-        return questionRepository.add(newQuestion);
+        throw new NotAllowedActionException();
     }
 
     @Override
     public Question add(Question question) {
-        return questionRepository.add(question);
+        throw new NotAllowedActionException();
     }
 
     @Override
     public Question remove(Question question) {
-        return questionRepository.remove(question);
+        throw new NotAllowedActionException();
     }
 
     @Override
     public Collection<Question> getAll() {
-        return Collections.unmodifiableCollection(questionRepository.getAll());
+        throw new NotAllowedActionException();
     }
 
     @Override
     public Question getRandomQuestion() {
-        int i = new Random().nextInt(questionRepository.getAll().size());
-        Question returnedQuestion = null;
-        Iterator<Question> iterator = questionRepository.getAll().iterator();
-        while (i-- >= 0) {
-            returnedQuestion = iterator.next();
-        }
-        if (!isNull(returnedQuestion)) {
-            return returnedQuestion;
-        }
-        throw new GeneratingQuestionException();
+        int firstNum = new Random().nextInt(100);
+        int secondNum = new Random().nextInt(100);
+        int answer = firstNum + secondNum;
+        Question question = new Question((firstNum + "+" + secondNum), (" = " + answer));
+        return question;
     }
 }
