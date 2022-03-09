@@ -10,7 +10,7 @@ import ru.skypro.courseworktwo.service.ExaminerService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam/java")
+@RequestMapping("/exam")
 public class ExamController {
 
     private final ExaminerService service;
