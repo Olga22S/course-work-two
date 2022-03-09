@@ -4,21 +4,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.skypro.courseworktwo.model.Question;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final QuestionService javaQuestionService;
-    private final QuestionService mathQuestionService;
+    private List<QuestionService> services = new ArrayList<>();
 
     public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaQuestionService,
-                               @Qualifier("mathQuestionService")QuestionService mathQuestionService) {
-        this.javaQuestionService = javaQuestionService;
-        this.mathQuestionService = mathQuestionService;
+                               @Qualifier("mathQuestionService") QuestionService mathQuestionService) {
+        services.add(javaQuestionService);
+        services.add(mathQuestionService);
     }
 
     @Override
@@ -32,7 +28,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     private void generateJavaQuestions(int totalAmount, Collection<Question> questions){
         int questionsNum = getJavaQuestionsNumber(totalAmount);
         while (questionsNum-- > 0) {
-            if (!questions.add(javaQuestionService.getRandomQuestion())) {
+            if (!questions.add(services.get(0).getRandomQuestion())) {
                 questionsNum++;
             }
         }
@@ -41,7 +37,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     private void generateMathQuestions(int totalAmount, Collection<Question> questions){
         int questionsNum = totalAmount - questions.size();
         while (questionsNum-- > 0) {
-            if (!questions.add(mathQuestionService.getRandomQuestion())) {
+            if (!questions.add(services.get(1).getRandomQuestion())) {
                 questionsNum++;
             }
         }
@@ -49,7 +45,7 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     private int getJavaQuestionsNumber(int totalAmount) {
         int questionsNum = new Random().nextInt(totalAmount + 1);
-        int javaQuestionsTotal = javaQuestionService.getAll().size();
+        int javaQuestionsTotal = services.get(0).getAll().size();
         if (questionsNum > javaQuestionsTotal) {
             questionsNum = javaQuestionsTotal;
         }
