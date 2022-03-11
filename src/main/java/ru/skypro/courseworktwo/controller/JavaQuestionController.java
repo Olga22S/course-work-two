@@ -30,6 +30,7 @@ public class JavaQuestionController {
         return questionService.remove(new Question(question, answer));
     }
 
+    // @LogExecutionTime
     @GetMapping
     public Collection<Question> getQuestions() {
         return questionService.getAll();
