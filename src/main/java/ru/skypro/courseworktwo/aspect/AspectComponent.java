@@ -17,8 +17,8 @@ public class AspectComponent {
 
     private final Logger logger = LoggerFactory.getLogger(JavaQuestionService.class);
 
-    //   @Around("@annotation(LogExecutionTime)")
-    @Around("execution(public * ru.skypro.courseworktwo.controller.JavaQuestionController.*(..))")
+   // @Around("execution(public * ru.skypro.courseworktwo.controller.JavaQuestionController.*(..))")
+    @Around("@annotation(LogExecutionTime)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
 

@@ -1,16 +1,25 @@
 package ru.skypro.courseworktwo.model;
 
+import org.hibernate.Hibernate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
-public class Question {
+@Entity
+public class PythonQuestion {
 
+    @Id
+    @GeneratedValue
+    private Long id;
     private String question;
     private String answer;
 
-    public Question() {
+    public PythonQuestion() {
     }
 
-    public Question(String question, String answer) {
+    public PythonQuestion(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -19,12 +28,12 @@ public class Question {
         return question;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
     }
 
     public void setAnswer(String answer) {
@@ -36,16 +45,16 @@ public class Question {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Question)) {
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Question question1 = (Question) o;
-        return getQuestion().equals(question1.getQuestion()) && getAnswer().equals(question1.getAnswer());
+        PythonQuestion that = (PythonQuestion) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getQuestion(), getAnswer());
+        return getClass().hashCode();
     }
 
     @Override
